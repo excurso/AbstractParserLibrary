@@ -19,40 +19,40 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 *******************************************************************************/
 
 
-#ifndef VISITORINTERFACE_H
-#define VISITORINTERFACE_H
+#ifndef ABSTRACTVISITORINTERFACE_H
+#define ABSTRACTVISITORINTERFACE_H
 
-namespace General {
+namespace Abstract {
 namespace Visitor {
 
 template<class ...VisitableTypes>
-class VisitorInterface;
+class AbstractVisitorInterface;
 
 template<class VisitableType>
-class VisitorInterface<VisitableType> {
+class AbstractVisitorInterface<VisitableType> {
 public:
     virtual void visit(const VisitableType &visitable) = 0;
 };
 
 template<class VisitableType, class ...VisitableTypes>
-class VisitorInterface<VisitableType, VisitableTypes...> : public VisitorInterface<VisitableTypes...>
+class AbstractVisitorInterface<VisitableType, VisitableTypes...> : public AbstractVisitorInterface<VisitableTypes...>
 {
 public:
-    VisitorInterface() = default;
-    VisitorInterface(VisitorInterface &) = delete;
-    VisitorInterface(const VisitorInterface &) = delete;
-    VisitorInterface(VisitorInterface &&) noexcept = default;
-    virtual ~VisitorInterface() = default;
+    AbstractVisitorInterface() = default;
+    AbstractVisitorInterface(AbstractVisitorInterface &) = delete;
+    AbstractVisitorInterface(const AbstractVisitorInterface &) = delete;
+    AbstractVisitorInterface(AbstractVisitorInterface &&) noexcept = default;
+    virtual ~AbstractVisitorInterface() = default;
 
-    VisitorInterface &operator=(VisitorInterface &) = delete;
-    VisitorInterface &operator=(const VisitorInterface &) = delete;
-    VisitorInterface &operator=(VisitorInterface &&) noexcept = default;
+    AbstractVisitorInterface &operator=(AbstractVisitorInterface &) = delete;
+    AbstractVisitorInterface &operator=(const AbstractVisitorInterface &) = delete;
+    AbstractVisitorInterface &operator=(AbstractVisitorInterface &&) noexcept = default;
 
-    using VisitorInterface<VisitableTypes...>::visit;
+    using AbstractVisitorInterface<VisitableTypes...>::visit;
     virtual void visit(const VisitableType &visitable) = 0;
 };
 
 } // namespace Visitor
-} // namespace General
+} // namespace Abstract
 
-#endif // VISITORINTERFACE_H
+#endif // ABSTRACTVISITORINTERFACE_H

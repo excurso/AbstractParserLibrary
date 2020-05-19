@@ -176,7 +176,7 @@ advance(int64_t count) const
             if (m_encoding == UTF8 && isUtf8MultibyteChar())
                 continue;
 
-            if (!isEof() && (isTab() || isLineTerminator() || bool(++m_column)))
+            if (!isEof() && (isTab() || isLineTerminator() || ++m_column))
                 ++m_iterator;
         }
     } else if (count < 0) {
@@ -191,16 +191,21 @@ void
 AbstractTokenizer::
 throwSyntaxError(const string &message)
 {
-    stringstream(m_error_message)
+    stringstream error_message;
+
+    error_message
         << "Syntax error: Unexpected character '"
         << currentChar()
         << "' on row "
         << m_row
         << " column "
-        << m_column
-        << NEWLINE
-        << message
-        << endl;
+        << m_column;
 
+    if (!message.empty())
+        error_message
+            << NEWLINE
+            << message;
+
+    m_error_message = error_message.str();
     setSyntaxError();
 }

@@ -71,7 +71,7 @@ protected:
 
     parseError          () const;
 
-    inline const GeneralTokenPtr
+    inline const AbstractTokenPtr
     prevToken           () const,
     currentToken        (const int64_t count = 0) const,
     nextToken           () const;
@@ -120,21 +120,21 @@ advance(const int64_t count) const
     return true;
 }
 
-inline const GeneralTokenPtr
+inline const AbstractTokenPtr
 AbstractParser::
 prevToken() const
 {
     return *(m_iterator-1);
 }
 
-inline const GeneralTokenPtr
+inline const AbstractTokenPtr
 AbstractParser::
 currentToken(int64_t count) const
 {
     return *(m_iterator+count);
 }
 
-inline const GeneralTokenPtr
+inline const AbstractTokenPtr
 AbstractParser::
 nextToken() const
 {

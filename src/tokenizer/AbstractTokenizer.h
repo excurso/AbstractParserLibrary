@@ -19,8 +19,8 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 *******************************************************************************/
 
 
-#ifndef GENERALTOKENIZER_H
-#define GENERALTOKENIZER_H
+#ifndef ABSTRACTTOKENIZER_H
+#define ABSTRACTTOKENIZER_H
 #include "../../../StringLibrary/src/String.h"
 #include "elements/AbstractToken.h"
 #include <memory>
@@ -28,7 +28,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 namespace Abstract {
 namespace Tokenization {
 using namespace Abstract::Tokenization::Tokens;
-using AbstractTokenStream    = DataContainer<GeneralTokenPtr>;
+using AbstractTokenStream    = DataContainer<AbstractTokenPtr>;
 using AbstractTokenStreamPtr = shared_ptr<AbstractTokenStream>;
 
 class AbstractTokenizer
@@ -49,6 +49,9 @@ public:
     AbstractTokenizer &operator=(const AbstractTokenizer &) = delete;
     AbstractTokenizer &operator=(AbstractTokenizer &&) = delete;
     AbstractTokenizer &operator=(const AbstractTokenizer &&) = delete;
+
+    const string &
+    errorMessage            ();
 
 protected:
     enum Encoding : uint8_t { UNSUPPORTED, UTF8, ISO8859, WINDOWS125X };
@@ -96,8 +99,8 @@ protected:
     readCharSequence        (const string &not_allowed_chars) const;
 
     inline void
-    appendToken             (const GeneralTokenPtr &token),
-    appendToken             (const GeneralTokenPtr &token, const uint64_t row, const uint64_t column),
+    appendToken             (const AbstractTokenPtr &token),
+    appendToken             (const AbstractTokenPtr &token, const uint64_t row, const uint64_t column),
     setIterator             (const string::iterator iterator) const,
 
     setSyntaxError          ();
@@ -136,9 +139,6 @@ protected:
 
     void
     throwSyntaxError        (const string &message = "");
-
-    const string &
-    errorMessage            ();
 
 private:
     AbstractTokenStreamPtr      m_token_stream;
@@ -196,7 +196,7 @@ getTabWidth()
 
 inline void
 AbstractTokenizer::
-appendToken(const GeneralTokenPtr &token)
+appendToken(const AbstractTokenPtr &token)
 {
     token->setRow(m_row);
     token->setColumn(m_column - (token->contentPtr() ? token->content().length() + 1 : 0));
@@ -205,7 +205,7 @@ appendToken(const GeneralTokenPtr &token)
 
 inline void
 AbstractTokenizer::
-appendToken(const GeneralTokenPtr &token, const uint64_t row, const uint64_t column)
+appendToken(const AbstractTokenPtr &token, const uint64_t row, const uint64_t column)
 {
     token->setRow(row);
     token->setColumn(column);
@@ -358,7 +358,7 @@ inline bool
 AbstractTokenizer::
 isTab() const
 {
-    return currentChar('\t') && bool(m_column += m_tab_width);
+    return currentChar('\t') && (m_column += m_tab_width);
 }
 
 inline bool
@@ -420,4 +420,4 @@ errorMessage()
 } // namespace Tokenization
 } // namespace Abstract
 
-#endif // GENERALTOKENIZER_H
+#endif // ABSTRACTTOKENIZER_H

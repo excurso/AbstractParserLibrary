@@ -22,6 +22,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 #ifndef ABSTRACTTOKEN_H
 #define ABSTRACTTOKEN_H
 #include <memory>
+#include <string>
 
 #ifdef EOF
 #undef EOF
@@ -176,7 +177,7 @@ column() const
     return m_column;
 }
 
-using GeneralTokenPtr = shared_ptr<AbstractToken>;
+using AbstractTokenPtr = shared_ptr<AbstractToken>;
 
 } // namespace Tokens
 } // namespace Tokenization
